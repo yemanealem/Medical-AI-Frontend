@@ -1,1 +1,24 @@
 @import "tailwindcss";
+
+@theme {
+  /* Fonts */
+  --font-display: "Satoshi", "sans-serif";
+
+  /* Breakpoints */
+  --breakpoint-3xl: 120rem;
+
+  /* Colors */
+  --color-primary: #1d4ed8;
+  --color-primary-hover: #1e40af;
+  --color-secondary: #1f2937;
+  --color-secondary-hover: #111827;
+  --color-text-light: #ffffff;
+  --color-text-gray: #9ca3af;
+
+  /* Gradients */
+  --gradient-auth: linear-gradient(to bottom right, #111827, #1f2937, #111827);
+
+  /* Easing */
+  --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
+  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+}
