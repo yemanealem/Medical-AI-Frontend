@@ -1,50 +1,61 @@
 import React from "react";
 import { MessageCircle, FileText, ImageIcon, ClipboardX } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-interface SidebarProps {}
+interface SidebarItem {
+  label: string;
+  icon: React.ReactNode;
+  path: string;
+}
 
-const tabs = [
-  { path: "/dashboard/chat", label: "Chat", icon: MessageCircle },
-  { path: "/dashboard/text", label: "Analyze Medical Text", icon: FileText },
-  { path: "/dashboard/image", label: "Analyze Medical Image", icon: ImageIcon },
-  {
-    path: "/dashboard/prescription",
-    label: "Submit Prescription",
-    icon: ClipboardX,
-  },
-];
+export default function Sidebar() {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-export default function Sidebar({}: SidebarProps) {
+  const sidebarItems: SidebarItem[] = [
+    {
+      label: "Chat",
+      icon: <MessageCircle className="w-5 h-5" />,
+      path: "chat",
+    },
+    {
+      label: "Analyze Medical Text",
+      icon: <FileText className="w-5 h-5" />,
+      path: "analyze-text",
+    },
+    {
+      label: "Analyze Medical Image",
+      icon: <ImageIcon className="w-5 h-5" />,
+      path: "analyze-image",
+    },
+    {
+      label: "Submit Prescription",
+      icon: <ClipboardX className="w-5 h-5" />,
+      path: "prescription",
+    },
+  ];
+
   return (
-    <div
-      className="w-64 flex flex-col bg-secondary text-text-light shadow-md"
-      style={{ backgroundColor: "var(--color-secondary)" }}
-    >
-      <div className="p-6 text-2xl font-bold border-b border-gray-700">
-        MediCare AI
+    <div className="w-64 bg-gray-900 text-white flex flex-col min-h-screen">
+      <div className="text-center py-6 border-b border-gray-800">
+        <h1 className="text-xl font-bold">MediCare AI</h1>
       </div>
-      <nav className="flex-1 flex flex-col mt-4">
-        {tabs.map((tab) => {
-          const Icon = tab.icon;
-          return (
-            <NavLink
-              key={tab.path}
-              to={tab.path}
-              className={({ isActive }) =>
-                `flex items-center gap-3 px-6 py-3 text-left transition-colors rounded-r-xl mb-1 ${
-                  isActive
-                    ? "bg-primary text-text-light"
-                    : "hover:bg-gray-700 text-text-light"
-                }`
-              }
-            >
-              <Icon className="w-5 h-5" />
-              {tab.label}
-            </NavLink>
-          );
-        })}
-      </nav>
+
+      {sidebarItems.map((item) => {
+        const isActive = location.pathname.endsWith(item.path); // Check if current route matches
+        return (
+          <div
+            key={item.path}
+            onClick={() => navigate(item.path)} // Navigate relative to Dashboard
+            className={`flex items-center gap-3 p-4 cursor-pointer transition-colors ${
+              isActive ? "bg-gray-800" : "hover:bg-gray-700"
+            }`}
+          >
+            {item.icon}
+            <span className="font-medium">{item.label}</span>
+          </div>
+        );
+      })}
     </div>
   );
 }
