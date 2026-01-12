@@ -1,14 +1,34 @@
+import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import AuthPage from "./pages/AuthPage";
+import Chat from "./pages/Chat";
+
 function App() {
+  const isAuthenticated = !!localStorage.getItem("token");
+
   return (
-    <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm text-center">
-        <h2 className="text-2xl font-bold text-gray-800">Tailwind Card</h2>
-        <p className="text-gray-600 mt-3">
-            This is a simple card layout built with Tailwind CSS.
-        </p>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
-            Learn More
-        </button>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            isAuthenticated ? <Navigate to="/dashboard" /> : <AuthPage />
+          }
+        />
+        <Route path="/login" element={<AuthPage />} />
+        <Route path="/signup" element={<AuthPage />} />
+        {/* <Route
+          path="/dashboard"
+          element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />}
+        /> */}
+
+        <Route
+          path="/chat"
+          element={isAuthenticated ? <Chat /> : <Navigate to="/" />}
+        />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
