@@ -9,7 +9,10 @@ import CTASection from "../components/CTASection";
 
 export default function HomePage() {
   return (
-    <div className="bg-[#020617] text-white min-h-screen">
+    <div
+      className="bg-[#020617] text-white min-h-screen "
+      style={{ background: "var(--gradient-auth)" }}
+    >
       <Header />
       <HeroSection />
       <TrustSection />

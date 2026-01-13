@@ -17,7 +17,7 @@ function App() {
         <Route
           path="/da"
           element={
-            isAuthenticated ? <Navigate to="/dashboard/chat" /> : <AuthPage />
+            isAuthenticated ? <Navigate to="/dashboard" /> : <AuthPage />
           }
         />
 
@@ -30,12 +30,10 @@ function App() {
         <Route
           path="/dashboard"
           element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />}
-        >
-          <Route path="chat" element={<Chat />} />
-          <Route path="analyze-image" element={<MedicalImageAnalysis />} />
-          <Route path="prescription" element={<Prescription />} />
-          <Route index element={<Navigate to="chat" />} /> {/* Default route */}
-        </Route>
+        ></Route>
+        <Route path="chat" element={<Chat />} />
+        <Route path="analyze-image" element={<MedicalImageAnalysis />} />
+        <Route path="prescription" element={<Prescription />} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" />} />

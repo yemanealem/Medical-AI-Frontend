@@ -4,10 +4,12 @@ import axios from "axios";
 import { Brain, User, Lock } from "lucide-react";
 import { Input } from "./Input";
 import { API_BASE } from "../../config/env";
+import { useNavigate } from "react-router-dom";
 
 export function Login({ toggleMode }: { toggleMode: () => void }) {
   const [username, setUsername] = useState<LoginForm["username"]>("");
   const [password, setPassword] = useState<LoginForm["password"]>("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,8 +19,10 @@ export function Login({ toggleMode }: { toggleMode: () => void }) {
         password,
       });
       localStorage.setItem("token", res.data.access_token);
-      alert("Welcome back 👋 Your AI assistant is online");
+      navigate("/");
     } catch (err) {
+      console.error(err);
+      // Could also show a toast notification here
       alert(err || "Something went wrong!");
     }
   };
