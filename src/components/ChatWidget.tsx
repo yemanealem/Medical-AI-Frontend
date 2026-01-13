@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Brain, X, MessageCircle } from "lucide-react";
+import { X, MessageCircle } from "lucide-react";
 import ChatPanel from "./ChatPanel";
 
 export default function ChatWidget() {
@@ -21,27 +21,29 @@ export default function ChatWidget() {
       {open && (
         <div
           className="
-                fixed bottom-6 right-6 z-50
-                w-[420px] h-[400px]
-                md:w-[480px] md:h-[650px]
-                bg-white rounded-3xl
-                shadow-2xl overflow-hidden
-                flex flex-col
-                "
+            fixed bottom-6 right-6 z-50
+            w-[420px] h-[400px]
+            md:w-[480px] md:h-[650px]
+            bg-white rounded-3xl
+            shadow-2xl
+            flex flex-col overflow-hidden
+          "
         >
-          {" "}
           {/* Header */}
-          <div className="flex items-center justify-between bg-blue-600 text-white px-4 py-3">
+          <div className="flex-shrink-0 flex items-center justify-between bg-blue-600 text-white px-4 py-3">
             <div className="flex items-center gap-2">
-              <Brain className="w-5 h-5" />
+              <MessageCircle className="w-5 h-5" />
               <span className="font-semibold">MediCare AI</span>
             </div>
             <button onClick={() => setOpen(false)}>
               <X className="w-5 h-5" />
             </button>
           </div>
+
           {/* Chat Content */}
-          <ChatPanel />
+          <div className="flex-1 overflow-y-auto">
+            <ChatPanel />
+          </div>
         </div>
       )}
     </>

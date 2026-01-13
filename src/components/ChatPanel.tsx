@@ -37,10 +37,20 @@ export default function ChatPanel() {
     setLoading(true);
 
     try {
-      const res = await axios.post(`${API_BASE}/api/chat`, {
-        message: input,
-        language: "en",
-      });
+      const token = localStorage.getItem("token");
+
+      const res = await axios.post(
+        `${API_BASE}/api/chat`,
+        {
+          message: input,
+          language: "en",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // ✅ important
+          },
+        }
+      );
 
       setMessages((prev) => [
         ...prev,
