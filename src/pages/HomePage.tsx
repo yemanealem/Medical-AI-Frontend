@@ -6,7 +6,7 @@ import HowItWorks from "../components/HowItWorks";
 import UseCases from "../components/UseCases";
 import SecuritySection from "../components/SecuritySection";
 import CTASection from "../components/CTASection";
-
+import ChatWidget from "../components/ChatWidget";
 export default function HomePage() {
   return (
     <div
@@ -21,6 +21,7 @@ export default function HomePage() {
       <UseCases />
       <SecuritySection />
       <CTASection />
+      <ChatWidget />
     </div>
   );
 }

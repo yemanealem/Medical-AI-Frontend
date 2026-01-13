@@ -1,19 +1,13 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { MessageCircle, FileText, ImageIcon, ClipboardX } from "lucide-react";
+import { FileText, ImageIcon, ClipboardX } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 
 export default function Header() {
   const navigate = useNavigate();
   const isAuthenticated = !!localStorage.getItem("token");
 
-  // Navigation items
   const navItems = [
-    {
-      label: "Chat",
-      path: "/chat",
-      icon: <MessageCircle className="w-4 h-4" />,
-    },
     {
       label: "Analyze Text",
       path: "/dashboard/analyze-text",
