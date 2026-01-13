@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import Chat from "./pages/Chat";
 import Prescription from "./pages/Prescription";
 import MedicalImageAnalysis from "./pages/MedicalImageAnalysis";
+import HomePage from "./pages/HomePage";
 
 function App() {
   const isAuthenticated = !!localStorage.getItem("token");
@@ -14,11 +15,14 @@ function App() {
       <Routes>
         {/* Auth Routes */}
         <Route
-          path="/"
+          path="/da"
           element={
             isAuthenticated ? <Navigate to="/dashboard/chat" /> : <AuthPage />
           }
         />
+
+        <Route path="/" element={<HomePage />} />
+
         <Route path="/login" element={<AuthPage />} />
         <Route path="/signup" element={<AuthPage />} />
 
