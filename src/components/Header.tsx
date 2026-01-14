@@ -1,40 +1,67 @@
-import React from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FileText, ImageIcon, ClipboardX } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 
-export default function Header() {
+interface HeaderProps {
+  setSidebar: (
+    value: "prescription" | "analyzeImage" | "analyzeText" | "search" | null
+  ) => void;
+  language?: string; // <-- Add this
+  setLanguage?: Dispatch<SetStateAction<string>>; // <-- Add this
+}
+
+export default function Header({
+  setSidebar,
+  language,
+  setLanguage,
+}: HeaderProps) {
   const navigate = useNavigate();
   const isAuthenticated = !!localStorage.getItem("token");
 
   const navItems = [
-    {
-      label: "Analyze Text",
-      path: "/dashboard/analyze-text",
-      icon: <FileText className="w-4 h-4" />,
-    },
+    // {
+    //   label: "Analyze Text",
+    //   icon: <FileText className="w-4 h-4" />,
+    //   type: "sidebar",
+    //   sidebar: "analyzeText",
+    // },
     {
       label: "Analyze Image",
-      path: "/dashboard/analyze-image",
       icon: <ImageIcon className="w-4 h-4" />,
+      type: "sidebar",
+      sidebar: "analyzeImage",
     },
     {
-      label: "Prescription",
-      path: "/dashboard/prescription",
+      label: "Validate Prescription",
       icon: <ClipboardX className="w-4 h-4" />,
+      type: "sidebar",
+      sidebar: "prescription",
+    },
+    {
+      label: "Search",
+      icon: <FileText className="w-4 h-4" />,
+      type: "sidebar",
+      sidebar: "search",
     },
   ];
 
-  // Handle navigation click
-  const handleNavigation = (path: string) => {
+  const handleNavigation = (item: (typeof navItems)[0]) => {
     if (!isAuthenticated) {
       navigate("/login");
-    } else {
-      navigate(path);
+      return;
+    }
+    if (item.type === "sidebar" && item.sidebar) {
+      setSidebar(
+        item.sidebar as
+          | "prescription"
+          | "analyzeImage"
+          | "analyzeText"
+          | "search"
+      );
     }
   };
 
-  // Logout function
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/auth");
@@ -48,18 +75,36 @@ export default function Header() {
           MediCare AI
         </Link>
 
-        {/* Navigation buttons */}
-        <nav className="flex items-center gap-4">
-          {navItems.map((item) => (
-            <button
-              key={item.path}
-              onClick={() => handleNavigation(item.path)}
-              className="flex items-center gap-1 px-4 py-2 rounded-md text-white hover:bg-gray-700 transition"
-            >
-              {item.icon} <span>{item.label}</span>
-            </button>
-          ))}
+        {/* Navigation + Right Controls */}
+        <div className="flex items-center gap-4">
+          {/* Navigation Buttons */}
+          <nav className="flex items-center gap-4">
+            {navItems.map((item) => (
+              <button
+                key={item.label}
+                onClick={() => handleNavigation(item)}
+                className="flex items-center gap-1 px-4 py-2 rounded-md text-white hover:bg-gray-700 transition"
+              >
+                {item.icon} <span>{item.label}</span>
+              </button>
+            ))}
+          </nav>
 
+          {/* Language Dropdown */}
+          <select
+            value={language || "en"}
+            onChange={(e) => setLanguage && setLanguage(e.target.value)}
+            className="px-2 py-1 rounded-md bg-gray-800 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="en">English</option>
+            <option value="sv">Swedish</option>
+            <option value="am">Amharic</option>
+            <option value="fr">French</option>
+            {/* <option value="es">Spanish</option>
+            <option value="de">German</option> */}
+          </select>
+
+          {/* Sign In / Logout */}
           {!isAuthenticated ? (
             <Link
               to="/login"
@@ -76,9 +121,9 @@ export default function Header() {
             </button>
           )}
 
-          {/* Theme toggle */}
+          {/* Theme Toggle */}
           <ThemeToggle />
-        </nav>
+        </div>
       </div>
     </header>
   );

@@ -8,6 +8,10 @@ interface ChatMessage {
   text: string;
 }
 
+interface ChatPanelProps {
+  language: string;
+}
+
 const TypingDots = () => (
   <div className="flex gap-1">
     <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></span>
@@ -16,7 +20,7 @@ const TypingDots = () => (
   </div>
 );
 
-export default function ChatPanel() {
+export default function ChatPanel({ language }: ChatPanelProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -38,16 +42,17 @@ export default function ChatPanel() {
 
     try {
       const token = localStorage.getItem("token");
+      console.log("language is ", language);
 
       const res = await axios.post(
         `${API_BASE}/api/chat`,
         {
           message: input,
-          language: "en",
+          language,
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // ✅ important
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -93,7 +98,6 @@ export default function ChatPanel() {
                   : "bg-[#f7f7f8] text-gray-900 rounded-bl-none"
               }`}
             >
-              {/* Copy button (AI only) */}
               {m.sender === "ai" && (
                 <button
                   onClick={() => handleCopy(m.text, i)}

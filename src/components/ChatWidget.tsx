@@ -2,7 +2,11 @@ import { useState } from "react";
 import { X, MessageCircle } from "lucide-react";
 import ChatPanel from "./ChatPanel";
 
-export default function ChatWidget() {
+interface ChatWidgetProps {
+  language: string; // <-- receive language
+}
+
+export default function ChatWidget({ language }: ChatWidgetProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -42,7 +46,7 @@ export default function ChatWidget() {
 
           {/* Chat Content */}
           <div className="flex-1 overflow-y-auto">
-            <ChatPanel />
+            <ChatPanel language={language} /> {/* <-- pass language */}
           </div>
         </div>
       )}
