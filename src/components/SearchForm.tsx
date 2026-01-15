@@ -27,6 +27,7 @@ export default function SearchForm() {
 
     setLoading(true);
     setError(null);
+    setResults([]);
 
     try {
       const response = await axios.post<SearchResponse>(
@@ -48,49 +49,64 @@ export default function SearchForm() {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <form onSubmit={handleSearch} className="flex flex-col gap-2">
+    <div className="flex flex-col gap-6">
+      {/* Search Form */}
+      <form
+        onSubmit={handleSearch}
+        className="flex flex-col sm:flex-row gap-3 bg-gray-900 p-6 rounded-xl border border-gray-700 shadow-lg"
+      >
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Enter research topic"
-          className="px-3 py-2 rounded bg-gray-800 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Enter research topic..."
+          className="flex-1 px-4 py-3 rounded-lg bg-gray-800 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
         />
         <button
           type="submit"
-          className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 rounded text-white font-medium transition"
+          className="flex items-center justify-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg shadow transition"
           disabled={loading}
         >
-          {loading ? "Searching..." : "Search"}
+          {loading ? (
+            <>
+              {/* CSS Spinner */}
+              <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin inline-block"></span>
+              Searching...
+            </>
+          ) : (
+            "Search"
+          )}
         </button>
       </form>
 
-      {error && <p className="text-red-500">{error}</p>}
+      {/* Error Message */}
+      {error && <p className="text-red-500 text-sm">{error}</p>}
 
-      <div className="flex flex-col gap-4 mt-4 max-h-[60vh] overflow-y-auto">
+      {/* Results */}
+      <div className="flex flex-col gap-4 mt-4 max-h-[60vh] overflow-y-auto pr-2">
+        {results.length === 0 && !loading && (
+          <p className="text-gray-400 text-sm">No results found.</p>
+        )}
+
         {results.map((item, idx) => (
           <a
             key={idx}
             href={item.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="block p-4 border border-gray-700 rounded hover:bg-gray-800 transition"
+            className="block p-5 border border-gray-700 rounded-xl bg-gray-800 hover:bg-gray-700 transition shadow hover:shadow-lg"
           >
-            <h3 className="text-lg font-semibold text-blue-400 hover:underline">
+            <h3 className="text-lg font-bold text-purple-400 hover:underline mb-2">
               {item.title}
             </h3>
-            <p className="text-gray-300 mt-1 text-sm line-clamp-4">
+            <p className="text-gray-300 text-sm mb-2 line-clamp-4">
               {item.content}
             </p>
-            <p className="text-gray-500 text-xs mt-1">
+            <p className="text-gray-500 text-xs">
               Score: {item.score.toFixed(2)}
             </p>
           </a>
         ))}
-        {results.length === 0 && !loading && (
-          <p className="text-gray-400 text-sm">No results found.</p>
-        )}
       </div>
     </div>
   );

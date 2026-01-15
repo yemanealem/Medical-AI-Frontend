@@ -17,7 +17,7 @@ export default function TrustSection() {
         <div>
           <h3 className="font-semibold">Human oversight</h3>
           <p className="text-gray-400 mt-2">
-            AI supports—not replaces—professionals.
+            AI supports-not replaces - professionals.
           </p>
         </div>
       </div>

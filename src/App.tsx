@@ -6,38 +6,47 @@ import Chat from "./pages/Chat";
 import Prescription from "./pages/Prescription";
 import MedicalImageAnalysis from "./pages/MedicalImageAnalysis";
 import HomePage from "./pages/HomePage";
+import Footer from "./components/Footer";
 
 function App() {
   const isAuthenticated = !!localStorage.getItem("token");
 
   return (
     <BrowserRouter>
-      <Routes>
-        {/* Auth Routes */}
-        <Route
-          path="/da"
-          element={
-            isAuthenticated ? <Navigate to="/dashboard" /> : <AuthPage />
-          }
-        />
+      {/* Main app container */}
+      <div className="min-h-screen flex flex-col bg-gray-950 text-white">
+        {/* Routes */}
+        <div className="flex-1">
+          <Routes>
+            {/* Auth Routes */}
+            <Route
+              path="/da"
+              element={
+                isAuthenticated ? <Navigate to="/dashboard" /> : <AuthPage />
+              }
+            />
 
-        <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<AuthPage />} />
+            <Route path="/signup" element={<AuthPage />} />
 
-        <Route path="/login" element={<AuthPage />} />
-        <Route path="/signup" element={<AuthPage />} />
+            {/* Dashboard with nested routes */}
+            <Route
+              path="/dashboard"
+              element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />}
+            />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/analyze-image" element={<MedicalImageAnalysis />} />
+            <Route path="/prescription" element={<Prescription />} />
 
-        {/* Dashboard with nested routes */}
-        <Route
-          path="/dashboard"
-          element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />}
-        ></Route>
-        <Route path="chat" element={<Chat />} />
-        <Route path="analyze-image" element={<MedicalImageAnalysis />} />
-        <Route path="prescription" element={<Prescription />} />
+            {/* Fallback */}
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </div>
 
-        {/* Fallback */}
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
+        {/* Footer always at the bottom */}
+        <Footer />
+      </div>
     </BrowserRouter>
   );
 }

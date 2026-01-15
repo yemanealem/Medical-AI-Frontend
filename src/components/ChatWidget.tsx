@@ -3,7 +3,7 @@ import { X, MessageCircle } from "lucide-react";
 import ChatPanel from "./ChatPanel";
 
 interface ChatWidgetProps {
-  language: string; // <-- receive language
+  language: string;
 }
 
 export default function ChatWidget({ language }: ChatWidgetProps) {
@@ -15,7 +15,7 @@ export default function ChatWidget({ language }: ChatWidgetProps) {
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="fixed bottom-6 right-6 z-50 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-2xl transition"
+          className="fixed bottom-6 right-6 z-50 bg-purple-500 hover:purple-500 text-white p-4 rounded-full shadow-2xl transition"
         >
           <MessageCircle className="w-6 h-6" />
         </button>
@@ -34,7 +34,7 @@ export default function ChatWidget({ language }: ChatWidgetProps) {
           "
         >
           {/* Header */}
-          <div className="flex-shrink-0 flex items-center justify-between bg-blue-600 text-white px-4 py-3">
+          <div className="flex-shrink-0 flex items-center justify-between bg-purple-500 text-white px-4 py-3">
             <div className="flex items-center gap-2">
               <MessageCircle className="w-5 h-5" />
               <span className="font-semibold">MediCare AI</span>
@@ -46,7 +46,7 @@ export default function ChatWidget({ language }: ChatWidgetProps) {
 
           {/* Chat Content */}
           <div className="flex-1 overflow-y-auto">
-            <ChatPanel language={language} /> {/* <-- pass language */}
+            <ChatPanel language={language} />
           </div>
         </div>
       )}

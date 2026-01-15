@@ -21,10 +21,9 @@ export default function UseCases() {
         <div className="p-8 rounded-xl border border-white/10">
           <h3 className="text-xl font-semibold mb-4">For Doctors</h3>
           <ul className="space-y-3 text-gray-400">
-            <li>• Rapid medical text summarization</li>
+            <li>• Searching about medical researchs</li>
             <li>• Image interpretation support</li>
             <li>• Prescription cross-checking</li>
-            <li>• Decision support — not automation</li>
           </ul>
         </div>
       </div>

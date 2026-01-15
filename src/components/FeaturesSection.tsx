@@ -1,7 +1,7 @@
 export default function FeaturesSection() {
   const items = [
     "Medical AI Chat",
-    "Clinical Text Analysis",
+    "medical research searches",
     "Medical Image Interpretation",
     "Prescription Validation",
   ];

@@ -113,13 +113,13 @@ export default function Chat() {
           >
             {msg.sender === "ai" && (
               <div className="flex-shrink-0 mr-2">
-                <Brain className="w-6 h-6 text-blue-600" />
+                <Brain className="w-6 h-6 text-purple-500" />
               </div>
             )}
             <div
               className={`relative max-w-[70%] px-4 py-2 rounded-lg whitespace-pre-wrap shadow transition-all ${
                 msg.sender === "user"
-                  ? "bg-blue-600 text-white rounded-br-none"
+                  ? "purple-500 text-white rounded-br-none"
                   : "bg-gray-200 text-gray-800 rounded-bl-none"
               }`}
             >
@@ -150,7 +150,7 @@ export default function Chat() {
         {/* Loading animation */}
         {loading && (
           <div className="flex items-center gap-2">
-            <Brain className="w-6 h-6 text-blue-600 animate-pulse" />
+            <Brain className="w-6 h-6 purple-500 animate-pulse" />
             <TypingDots />
             <span className="text-gray-600">AI is typing...</span>
           </div>
@@ -167,11 +167,11 @@ export default function Chat() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyPress}
-          className="flex-1 px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-1 px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500"
         />
         <button
           onClick={handleSend}
-          className="btn-secondary hover:bg-blue-700 text-white px-4 py-2 rounded-xl flex items-center gap-2"
+          className="btn-secondary hover:bg-purple-500 text-white px-4 py-2 rounded-xl flex items-center gap-2"
         >
           <Send className="w-4 h-4" /> Send
         </button>

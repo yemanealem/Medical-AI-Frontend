@@ -94,7 +94,7 @@ export default function ChatPanel({ language }: ChatPanelProps) {
             <div
               className={`relative group px-4 py-3 max-w-[75%] rounded-2xl text-sm leading-relaxed whitespace-pre-line ${
                 m.sender === "user"
-                  ? "bg-blue-600 text-white rounded-br-none"
+                  ? "bg-purple-500 text-white rounded-br-none"
                   : "bg-[#f7f7f8] text-gray-900 rounded-bl-none"
               }`}
             >
