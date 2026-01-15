@@ -8,8 +8,6 @@ import UseCases from "../components/UseCases";
 import SecuritySection from "../components/SecuritySection";
 import CTASection from "../components/CTASection";
 import ChatWidget from "../components/ChatWidget";
-
-// Import separate forms
 import PrescriptionForm from "../components/PrescriptionForm";
 import TextAnalysisForm from "../components/TextAnalysisForm";
 import ImageAnalysisForm from "../components/ImageAnalysisForm";
@@ -20,7 +18,6 @@ export default function HomePage() {
     "prescription" | "analyzeImage" | "analyzeText" | "search" | null
   >(null);
 
-  // NEW: Language state
   const [language, setLanguage] = useState("en");
 
   return (

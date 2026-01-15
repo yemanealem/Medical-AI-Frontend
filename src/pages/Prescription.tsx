@@ -13,7 +13,6 @@ export default function Prescription() {
   };
 
   const handleSubmit = () => {
-    // call your API
     alert(`Prescription submitted: ${JSON.stringify(form)}`);
   };
 

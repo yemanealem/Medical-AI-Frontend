@@ -9,7 +9,6 @@ interface ChatMessage {
   timestamp: string;
 }
 
-// Typing dots animation
 const TypingDots = () => (
   <div className="flex items-center gap-1">
     <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></span>
@@ -30,7 +29,6 @@ export default function Chat() {
   }, [messages, loading]);
 
   const formatText = (text: string) => {
-    // Replace stars (*) from backend with bullets
     return text.replace(/\*/g, "•");
   };
 

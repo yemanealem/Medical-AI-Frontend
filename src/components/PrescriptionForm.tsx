@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import axios from "axios";
+import PrescriptionResult from "./PrescriptionResult";
 
 interface PrescriptionItem {
   drug_name: string;
@@ -16,9 +17,11 @@ export default function PrescriptionForm() {
     dosage_unit: "",
     frequency_per_day: undefined,
   });
+
   const [items, setItems] = useState<PrescriptionItem[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<string | null>(null);
 
   const handleCurrentItemChange = (
     field: keyof PrescriptionItem,
@@ -36,7 +39,7 @@ export default function PrescriptionForm() {
   };
 
   const addItem = () => {
-    if (!currentItem.drug_name) return; // prevent empty medicine
+    if (!currentItem.drug_name) return;
     setItems([...items, currentItem]);
     setCurrentItem({
       drug_name: "",
@@ -61,19 +64,11 @@ export default function PrescriptionForm() {
         "http://127.0.0.1:8000/api/prescriptions/validate",
         { items }
       );
-      console.log("API Response:", response.data);
-      alert("Prescription submitted successfully!");
-      // Reset items
-      setItems([]);
-      setCurrentItem({
-        drug_name: "",
-        dosage: undefined,
-        dosage_unit: "",
-        frequency_per_day: undefined,
-      });
+
+      setResult(response.data.consultation);
     } catch (error) {
-      console.error("Error submitting prescription:", error);
-      alert("Failed to submit prescription. Check console for details.");
+      console.error(error);
+      alert("Failed to validate prescription.");
     } finally {
       setLoading(false);
     }
@@ -83,113 +78,95 @@ export default function PrescriptionForm() {
     "w-full h-12 bg-gray-900 hover:bg-gray-800 text-white font-semibold rounded-lg shadow transition flex items-center justify-center gap-2";
 
   return (
-    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-      {/* Add Medicine Button */}
-      <button
-        type="button"
-        onClick={() => setShowForm(!showForm)}
-        className={buttonClasses}
-      >
-        <Plus className="w-5 h-5" /> Add Medicine
-      </button>
+    <>
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+        {/* Add Medicine Button */}
+        <button
+          type="button"
+          onClick={() => setShowForm(!showForm)}
+          className={buttonClasses}
+        >
+          <Plus className="w-5 h-5" /> Add Medicine
+        </button>
 
-      {/* Medicine Input Form */}
-      {showForm && (
-        <div className="flex flex-col gap-3 p-4 rounded-lg border border-gray-700 bg-gray-900">
-          <label className="flex flex-col">
-            Medicine Name
+        {/* Input Form */}
+        {showForm && (
+          <div className="flex flex-col gap-3 p-4 rounded-lg border border-gray-700 bg-gray-900">
             <input
-              type="text"
+              placeholder="Medicine name"
+              className="input"
               value={currentItem.drug_name}
               onChange={(e) =>
                 handleCurrentItemChange("drug_name", e.target.value)
               }
-              placeholder="Enter medicine name"
-              className="mt-1 px-3 py-2 rounded bg-gray-800 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-              required
             />
-          </label>
 
-          <label className="flex flex-col">
-            Dosage
             <input
               type="number"
+              placeholder="Dosage"
+              className="input"
               value={currentItem.dosage ?? ""}
               onChange={(e) =>
                 handleCurrentItemChange("dosage", e.target.value)
               }
-              placeholder="Enter dosage"
-              className="mt-1 px-3 py-2 rounded bg-gray-800 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />
-          </label>
 
-          <label className="flex flex-col">
-            Dosage Unit
             <input
-              type="text"
+              placeholder="Dosage unit (mg/ml)"
+              className="input"
               value={currentItem.dosage_unit}
               onChange={(e) =>
                 handleCurrentItemChange("dosage_unit", e.target.value)
               }
-              placeholder="mg / ml / tablet"
-              className="mt-1 px-3 py-2 rounded bg-gray-800 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />
-          </label>
 
-          <label className="flex flex-col">
-            Frequency per day
             <input
               type="number"
+              placeholder="Frequency per day"
+              className="input"
               value={currentItem.frequency_per_day ?? ""}
               onChange={(e) =>
                 handleCurrentItemChange("frequency_per_day", e.target.value)
               }
-              placeholder="Enter frequency per day"
-              className="mt-1 px-3 py-2 rounded bg-gray-800 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />
-          </label>
 
-          <button type="button" onClick={addItem} className={buttonClasses}>
-            Add to Prescription
-          </button>
-        </div>
-      )}
+            <button type="button" onClick={addItem} className={buttonClasses}>
+              Add to Prescription
+            </button>
+          </div>
+        )}
 
-      {/* Added Medicines */}
-      {items.length > 0 && (
-        <div className="flex flex-col gap-3">
-          {items.map((item, index) => (
-            <div
-              key={index}
-              className="flex justify-between items-center bg-gray-800 p-3 rounded-lg border border-gray-700 shadow hover:bg-gray-700 transition"
-            >
-              <div>
-                <p className="font-medium text-white">{item.drug_name}</p>
-                <p className="text-sm text-gray-300">
-                  {item.dosage} {item.dosage_unit} - {item.frequency_per_day} /
-                  day
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => removeItem(index)}
-                className="text-red-500 hover:text-red-700 transition"
-              >
-                <Trash2 className="w-5 h-5" />
-              </button>
+        {/* Items List */}
+        {items.map((item, index) => (
+          <div
+            key={index}
+            className="flex justify-between items-center bg-gray-800 p-3 rounded-lg border border-gray-700"
+          >
+            <div>
+              <p className="font-semibold text-white">{item.drug_name}</p>
+              <p className="text-sm text-gray-300">
+                {item.dosage} {item.dosage_unit} – {item.frequency_per_day}/day
+              </p>
             </div>
-          ))}
-        </div>
-      )}
+            <button onClick={() => removeItem(index)}>
+              <Trash2 className="text-red-500" />
+            </button>
+          </div>
+        ))}
 
-      {/* Submit Prescription */}
-      <button
-        type="submit"
-        className="w-full h-12 bg-purple-600 hover:bg-purple-400 text-white font-semibold rounded-lg shadow transition flex items-center justify-center gap-2"
-        disabled={loading}
-      >
-        {loading ? "Submitting..." : "Submit Prescription"}
-      </button>
-    </form>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full h-12 bg-purple-600 hover:bg-purple-500 rounded-lg font-semibold"
+        >
+          {loading ? "Validating..." : "Validate Prescription"}
+        </button>
+      </form>
+
+      {/* Result */}
+      {result && (
+        <PrescriptionResult result={result} onClear={() => setResult(null)} />
+      )}
+    </>
   );
 }
