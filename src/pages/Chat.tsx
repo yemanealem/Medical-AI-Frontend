@@ -23,7 +23,6 @@ export default function Chat() {
   const [loading, setLoading] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
-  // Auto scroll
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
@@ -96,13 +95,11 @@ export default function Chat() {
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
-      {/* Header */}
       <div className="flex items-center gap-3 bg-gradient-to-r btn-secondary gray-500  text-white px-6 py-4 shadow-md">
         <Brain className="w-8 h-8" />
         <h1 className="text-xl font-semibold">AI Health Assistant</h1>
       </div>
 
-      {/* Chat Messages */}
       <div className="flex-1 overflow-y-auto p-6 space-y-4">
         {messages.map((msg, idx) => (
           <div
@@ -128,7 +125,6 @@ export default function Chat() {
                 {msg.timestamp}
               </div>
 
-              {/* Copy button only for AI messages */}
               {msg.sender === "ai" && (
                 <button
                   className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-gray-700"
@@ -147,7 +143,6 @@ export default function Chat() {
           </div>
         ))}
 
-        {/* Loading animation */}
         {loading && (
           <div className="flex items-center gap-2">
             <Brain className="w-6 h-6 purple-500 animate-pulse" />
@@ -159,7 +154,6 @@ export default function Chat() {
         <div ref={chatEndRef} />
       </div>
 
-      {/* Input Area */}
       <div className="sticky bottom-0 flex items-center gap-3 p-4 bg-white shadow-md">
         <input
           type="text"

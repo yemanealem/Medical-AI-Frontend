@@ -25,7 +25,6 @@ export default function HomePage() {
       className="bg-[#020617] text-white min-h-screen"
       style={{ background: "var(--gradient-auth)" }}
     >
-      {/* Pass language and setter to Header */}
       <Header
         setSidebar={setSidebar}
         language={language}
@@ -41,16 +40,13 @@ export default function HomePage() {
       <CTASection />
       <ChatWidget language={language} />
 
-      {/* Sidebar modal */}
       {sidebar && (
         <>
-          {/* Backdrop */}
           <div
             className="fixed inset-0 bg-black/50 z-40"
             onClick={() => setSidebar(null)}
           ></div>
 
-          {/* Sidebar */}
           <div className="fixed top-0 right-0 h-full w-150 bg-gray-900 text-white shadow-lg z-50 transform transition-transform">
             <div className="flex justify-between items-center p-4 border-b border-gray-700">
               <h2 className="text-lg font-bold capitalize">{sidebar}</h2>
