@@ -32,7 +32,7 @@ export default function PrescriptionForm() {
 
   const handleCurrentItemChange = (
     field: keyof PrescriptionItem,
-    value: string | number
+    value: string | number,
   ) => {
     setCurrentItem((prev) => ({
       ...prev,
@@ -64,7 +64,7 @@ export default function PrescriptionForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (items.length === 0) {
-      alert("Please add at least one medicine.");
+      alert("Please add at least one medicine for prescrition.");
       return;
     }
 
@@ -72,7 +72,7 @@ export default function PrescriptionForm() {
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/prescriptions/validate",
-        { items }
+        { items },
       );
 
       setResult(response.data.consultation);
